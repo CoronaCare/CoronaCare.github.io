@@ -522,6 +522,28 @@ h1, h2, h3, h4, h5, h6 {
   z-index: 2;
 }
 
+#DigiteBairro {
+  text-align: center;
+  border: 0;
+  padding: 4px;
+  width: calc(100% - 110px);
+  border-radius: 50px;
+}
+
+#button-addon2 {
+  position: absolute;
+  top: 0;
+  right: -2px;
+  bottom: 0;
+  border: 0;
+  background: none;
+  font-size: 16px;
+  padding: 0 20px;
+  background: #1acc8d;
+  color: #fff;
+  transition: 0.3s;
+  border-radius: 50px;
+}
 /*--------------------------------------------------------------
 # Sections General
 --------------------------------------------------------------*/
