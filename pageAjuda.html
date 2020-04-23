@@ -28,6 +28,11 @@
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
 
+  <script src="https://code.jquery.com/jquery-3.1.1.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.quicksearch/2.3.1/jquery.quicksearch.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> 
+
   <!-- =======================================================
   * Template Name: Bootslander - v2.0.0
   * Template URL: https://bootstrapmade.com/bootslander-free-bootstrap-landing-page-template/
@@ -63,6 +68,24 @@
       <div class="row">
         <div class="col-lg-7 pt-5 pt-lg-0 order-2 order-lg-1 d-flex align-items-center">
           <div data-aos="zoom-out">
+            <div class="form-group input-group">
+              <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+              <input name="consulta" id="txt_consulta" placeholder="Consultar" type="text" class="form-control">
+            </div>
+            <div class="table-responsive text-nowrap">
+              <table id="tabela" class="table table-dark">
+                <thead>
+                    <tr>
+                        <th>nome</th>
+                        <th>email</th>
+                        <th>Telefone</th>
+                        <th>Endereço</th>
+                    </tr>
+                </thead>
+                <tbody id="ajudantes">                           
+                </tbody>
+             </table>
+            </div>
             <table class="table table-dark">
               <thead class="thead-dark">
                 <tr>
@@ -72,7 +95,7 @@
                   <th scope="col">Contato</th>
                 </tr>
               </thead>
-              <tbody id="ajudantes">
+              <tbody>
                 
               </tbody>
             </table>
@@ -224,39 +247,43 @@
   <!-- Template Main JS File -->
   <script src="js/main.js"></script>
   <!-- <script src="js/request.js"></script> -->
+  <script>
+    $('input#txt_consulta').quicksearch('table#tabela tbody tr');
+</script>
 
   <script>
-    var ajax = new XMLHttpRequest();
 
-ajax.open("GET", "https://sheetsu.com/apis/v1.0bu/5ad00517d72b")
+      var ajax = new XMLHttpRequest();
 
-ajax.responseType = "json";
+      ajax.open("GET", "https://sheetsu.com/apis/v1.0bu/5ad00517d72b");
 
-ajax.send();
+      ajax.responseType = "json";
 
-ajax.addEventListener("readystatechange", function(){
+      ajax.send();
 
-    if(ajax.readyState === 4 && ajax.status === 200){
-        console.log(ajax.response);
-    }
+      ajax.addEventListener("readystatechange", function(){
 
-    var resposta = ajax.response;
-    var lista = document.querySelector("#ajudantes")
-    var qtd = 0
+          if(ajax.readyState === 4 && ajax.status === 200){
+              console.log(ajax.response);
+          }
 
-    for (const item of resposta) {
-    
-        lista.innerHTML += "<tr>"
-        lista.innerHTML += "<th scope='row'>"+ qtd +"</th>";
-        lista.innerHTML += "<td>" + item.nome + "</td>";
-        lista.innerHTML += "<td>" + item.email + "</td>";
-        lista.innerHTML += "<td>" + item.data + "</td>";
-        lista.innerHTML += "</tr>"
+          var resposta = ajax.response;
+          var lista = document.querySelector("#ajudantes")
+          var qtd = 0
 
-        qtd++
-    }
+          for (const item of resposta) {
+          
+              lista.innerHTML += "<tr>"
+              lista.innerHTML += "<th scope='row'>"+ qtd +"</th>";
+              lista.innerHTML += "<td>" + item.nome + "</td>";
+              lista.innerHTML += "<td>" + item.email + "</td>";
+              lista.innerHTML += "<td>" + item.data + "</td>";
+              lista.innerHTML += "</tr>"
 
-});
+              qtd++
+          }
+
+      });
   </script>
 
 </body>

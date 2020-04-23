@@ -1,3 +1,5 @@
+import { domainToUnicode } from "url";
+
 var ajax = new XMLHttpRequest();
 
 ajax.open("GET", "https://sheetsu.com/apis/v1.0bu/5ad00517d72b")
@@ -13,19 +15,30 @@ ajax.addEventListener("readystatechange", function(){
     }
 
     var resposta = ajax.response;
-    var lista = document.querySelector("#ajudantes")
-    var qtd = 0
+    var corpo_tabela = document.querySelector("#ajudantes")
 
     for (const item of resposta) {
-    
-        lista.innerHTML += "<tr>"
-        lista.innerHTML += "<th scope='row'>"+ qtd +"</th>";
-        lista.innerHTML += "<td>" + item.nome + "</td>";
-        lista.innerHTML += "<td>" + item.email + "</td>";
-        lista.innerHTML += "<td>" + item.data + "</td>";
-        lista.innerHTML += "</tr>"
+        var linha = document.createElement("tr");
+        var c_nome = document.createElement("td");
+        var c_email = document.createElement("td");
+        var c_telefone = document.createElement("td");
+        var c_endereco = document.createElement("td");
+         var text_nome = document.createTextNode(item.nome)
+         var text_email = document.createTextNode(item.email)
+         var text_telefone = document.createTextNode(item.data)
+         var text_endereco = document.createTextNode(item.voce)
+     
+         c_nome.appendChild(text_nome);
+         c_email.appendChild(text_email);
+         c_telefone.appendChild(text_telefone);
+         c_endereco.appendChild(text_endereco);
 
-        qtd++
+         linha.appendChild(c_nome)
+         linha.appendChild(c_email)
+         linha.appendChild(c_telefone)
+         linha.appendChild(c_endereco)
+
+         corpo_tabela.innerHTML += linha
     }
 
 });
