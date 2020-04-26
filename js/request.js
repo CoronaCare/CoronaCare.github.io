@@ -8,6 +8,22 @@ ajax.responseType = "json";
 
 ajax.send();
 
+$.ajax({
+    type: "POST",
+    url: 'https://sheetsu.com/apis/v1.0bu/5ad00517d72b',
+    data: novaLinha,
+    success: processarDadosPlanilha
+});
+
+var novaLinha = {
+    ideia: 'INSIRA AQUI SUA IDEIA',
+    categoria: 'exemplo'
+};    
+
+function processarDadosPlanilha(data){
+    console.log('Dados inseridos com sucesso');
+}
+
 ajax.addEventListener("readystatechange", function(){
 
     if(ajax.readyState === 4 && ajax.status === 200){

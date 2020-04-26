@@ -27,12 +27,15 @@
 
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
-
-  <script src="https://code.jquery.com/jquery-3.1.1.js"></script>
+  <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+  <!-- <link href="assets/css/dataTables.bootstrap.min.css" rel="stylesheet"> -->
+  <link href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" rel="stylesheet">
+ 
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.quicksearch/2.3.1/jquery.quicksearch.js"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> 
 
+  <script src="//script.sheetsu.com/"></script>
   <!-- =======================================================
   * Template Name: Bootslander - v2.0.0
   * Template URL: https://bootstrapmade.com/bootslander-free-bootstrap-landing-page-template/
@@ -68,24 +71,27 @@
       <div class="row">
         <div class="col-lg-7 pt-5 pt-lg-0 order-2 order-lg-1 d-flex align-items-center">
           <div data-aos="zoom-out">
-            <div class="form-group input-group">
-              <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
-              <input name="consulta" id="txt_consulta" placeholder="Consultar" type="text" class="form-control">
-            </div>
-            <div class="table-responsive text-nowrap">
-              <table id="tabela" class="table table-dark">
-                <thead class="thead-dark">
-                    <tr>
-                        <th>nome</th>
-                        <th>email</th>
-                        <th>Telefone</th>
-                        <th>Endereço</th>
-                    </tr>
-                </thead>
-                <tbody id="ajudantes">                           
-                </tbody>
-             </table>
-            </div>
+            <h1><span>Procure seu bairo aqui</span></h1>
+              <div class="card text-center">
+                <div class="card-header">
+                    Você é incrivel
+                </div>
+                <table id="example" class="table table-bordered">
+                  <thead class="thead">
+                      <tr>
+                          <th>nome</th>
+                          <th>email</th>
+                          <th>Telefone</th>
+                          <th>Endereço</th>
+                      </tr>
+                  </thead>
+                  <tbody id="ajudantes">                           
+                  </tbody>
+               </table>
+               <div class="card-footer text-muted">
+                  Não encontrou ninguém próximo? aguarde só mais um pouquinho
+              </div>
+              </div>
           </div>
         </div>
         <div class="col-lg-5 order-1 order-lg-2 hero-img" data-aos="zoom-out" data-aos-delay="300">
@@ -112,7 +118,12 @@
     <!-- ======= Orientações básicas ======= -->
     <section id="details" class="details">
       <div class="container">
-
+        <form id="myForm">
+          <input type="text" name="first_name">
+          <input type="text" name="score">
+          <button type="submit">Save</button>
+        </form>
+        
         <div class="row content">
           <div class="col-md-4" data-aos="fade-right">
             <img src="assets/img/details-1.png" class="img-fluid" alt="">
@@ -231,18 +242,19 @@
   <script src="assets/vendor/wavify/wavify.js"></script>
   <script src="assets/vendor/aos/aos.js"></script>
 
+  <script src="assets/js/dataTables.bootstrap.min.js"></script>
+  <script src="assets/js/jquery.dataTables.min.js"></script>
+  <script src="assets/js/bootstrap.min.js"></script>
+
   <!-- Template Main JS File -->
   <script src="js/main.js"></script>
   <!-- <script src="js/request.js"></script> -->
-  <script>
-    $('input#txt_consulta').quicksearch('table#tabela tbody tr');
-</script>
 
   <script>
 
       var ajax = new XMLHttpRequest();
 
-      ajax.open("GET", "https://sheetsu.com/apis/v1.0bu/5ad00517d72b");
+      ajax.open("GET", "https://spreadsheets.google.com/feeds/list/1IbMFjY_L3YXiW_Qhv-rxIP1twBVGW7VzmuNYDdkBO6U/od6/public/values?alt=json");
 
       ajax.responseType = "json";
 
@@ -251,26 +263,25 @@
       ajax.addEventListener("readystatechange", function(){
 
           if(ajax.readyState === 4 && ajax.status === 200){
-              console.log(ajax.response);
+              console.log(ajax.response.feed.entry);
           }
 
-          var resposta = ajax.response;
+          var resposta = ajax.response.feed.entry;
           var lista = document.querySelector("#ajudantes")
           var qtd = 0
           var corpo_tabela = document.querySelector("#ajudantes")
           
-          for (const item of resposta) {
-
-         var linha = document.createElement("tr");
-         var c_nome = document.createElement("td");
-         var c_email = document.createElement("td");
-         var c_telefone = document.createElement("td");
-         var c_endereco = document.createElement("td");
-         var text_nome = document.createTextNode(item.nome)
-         var text_email = document.createTextNode(item.email)
-         var text_telefone = document.createTextNode(item.data)
-         var text_endereco = document.createTextNode(item.aa)
-     
+          for (let i = 0; i < resposta.length; i++) {
+            var linha = document.createElement("tr");
+            var c_nome = document.createElement("td");
+            var c_email = document.createElement("td");
+            var c_telefone = document.createElement("td");
+            var c_endereco = document.createElement("td");
+            var text_nome = document.createTextNode(resposta[i].gsx$nome.$t)
+            var text_email = document.createTextNode(resposta[i].gsx$email.$t)
+            var text_telefone = document.createTextNode(resposta[i].gsx$telefone.$t)
+            var text_endereco = document.createTextNode(resposta[i].gsx$endereco.$t)
+        
          c_nome.appendChild(text_nome);
          c_email.appendChild(text_email);
          c_telefone.appendChild(text_telefone);
@@ -282,9 +293,38 @@
          linha.appendChild(c_endereco)
 
          corpo_tabela.appendChild(linha)
-    }
-
+      }
+      $(document).ready(function() {
+        var table = $('#example').DataTable( {
+        responsive: true,
+        "language": {
+          "decimal":        "",
+          "emptyTable":     "Não foi encontrado nenhum dado",
+          "info":           "Mostrando _START_ para _END_ de _TOTAL_ voluntários",
+          "infoEmpty":      "Mostrando 0 para 0 de 0 voluntários",
+          "infoFiltered":   "(filtered from _MAX_ total entries)",
+          "infoPostFix":    "",
+          "thousands":      ",",
+          "lengthMenu":     "Mostrar _MENU_ Voluntários",
+          "loadingRecords": "Loading...",
+          "processing":     "Processando...",
+          "search":         "Buscar:",
+          "zeroRecords":    "Não foi encontrado",
+          "paginate": {
+              "first":      "Primeiro",
+              "last":       "Ultimo",
+              "next":       "Próximo",
+              "previous":   "Anterior"
+          },
+          "aria": {
+              "sortAscending":  ": activate to sort column ascending",
+              "sortDescending": ": activate to sort column descending"
+          }
+        }
       });
+      new $.fn.dataTable.FixedHeader( table );
+      });
+    });
   </script>
 
 </body>
